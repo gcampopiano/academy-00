@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public abstract class Academy01TestCase {
 
+	public static final String PERSISTENCE_UNIT_NAME = "Academy01";
+
 	@Deployment
 	public static Archive<?> createTestArchive() {
 

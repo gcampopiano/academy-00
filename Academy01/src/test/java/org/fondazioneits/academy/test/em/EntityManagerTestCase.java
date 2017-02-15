@@ -19,8 +19,6 @@ import org.junit.Test;
 
 public class EntityManagerTestCase extends Academy01TestCase {
 
-	public static final String PERSISTENCE_UNIT_NAME = "Academy01";
-
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
 	protected EntityManager em;
 
@@ -97,7 +95,7 @@ public class EntityManagerTestCase extends Academy01TestCase {
 		// attiva
 		// e l'associazione è lazy!!!
 		List<Order> orderList = c.getOrders();
-		
+
 		Assert.assertTrue((orderList != null) && !orderList.isEmpty());
 	}
 
