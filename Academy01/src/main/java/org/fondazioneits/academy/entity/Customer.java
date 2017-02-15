@@ -4,30 +4,29 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the "CUSTOMER" database table.
  * 
  */
 @Entity
-@Table(name="\"CUSTOMER\"")
-@NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c")
+@Table(name = "\"CUSTOMER\"")
+@NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="\"ID\"", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "\"ID\"", unique = true, nullable = false)
 	private Long id;
 
-	@Column(name="\"NAME\"", nullable=false, length=2147483647)
+	@Column(name = "\"NAME\"", nullable = false, length = 2147483647)
 	private String name;
 
-	@Column(name="\"SURNAME\"", nullable=false, length=2147483647)
+	@Column(name = "\"SURNAME\"", nullable = false, length = 2147483647)
 	private String surname;
 
-	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="customer")
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "customer")
 	private List<Order> orders;
 
 	public Customer() {
