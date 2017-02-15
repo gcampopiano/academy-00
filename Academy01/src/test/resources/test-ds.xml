@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.jboss.org/ironjacamar/schema
+        http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+	<datasource enabled="true" jndi-name="java:jboss/datasources/Academy01DS"
+		pool-name="Academy01DSPool">
+		<connection-url>jdbc:postgresql://localhost:5432/Academy</connection-url>
+		<driver>postgresql</driver>
+		<security>
+			<user-name>postgres</user-name>
+			<password>Lynx01!</password>
+		</security>
+	</datasource>
+</datasources>
