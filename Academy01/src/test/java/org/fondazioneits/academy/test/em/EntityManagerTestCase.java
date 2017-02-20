@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 
 import org.fondazioneits.academy.entity.Customer;
@@ -27,7 +28,7 @@ public class EntityManagerTestCase extends Academy01TestCase {
 
 	@Test
 	public void findInEmptyDatabaseReturnsNullEntity() {
-		Customer c = this.em.find(Customer.class, new Long(1));
+		Customer c = this.em.find(Customer.class, new Long(Long.MIN_VALUE));
 		Assert.assertNull(c);
 	}
 
@@ -134,6 +135,54 @@ public class EntityManagerTestCase extends Academy01TestCase {
 
 		this.utx.commit();
 		this.em.clear();
+	}
+
+	@Test
+	public void retrieveCustomerListByUsernameSuccessful() {
+		String qlString = "from Customer c where c.name = :nameParam";
+		Query q = this.em.createQuery(qlString);
+		q.setParameter("nameParam", "Guido");
+
+		@SuppressWarnings("unchecked")
+		List<Customer> customerList = q.getResultList();
+		Assert.assertTrue((customerList != null) && (!customerList.isEmpty()));
+	}
+
+	@Test
+	public void deleteCustomerByIdSuccessful() throws Exception {
+		Long entityId = new Long(2);
+
+		this.utx.begin();
+		this.em.joinTransaction();
+
+		Customer toRemove = this.em.find(Customer.class, entityId);
+		this.em.remove(toRemove);
+
+		this.utx.commit();
+		this.em.clear();
+
+		Customer c = this.em.find(Customer.class, entityId);
+		Assert.assertNull(c);
+	}
+
+	@Test
+	public void updateCustomerSuccessful() throws Exception {
+
+		this.utx.begin();
+		this.em.joinTransaction();
+
+		Customer toUpdate = this.em.find(Customer.class, new Long(4));
+
+		toUpdate.setName("Oliver");
+		toUpdate.setSurname("Medina");
+
+		this.utx.commit();
+		this.em.clear();
+
+		Customer c = this.em.find(Customer.class, new Long(4));
+		Assert.assertEquals("Oliver", c.getName());
+		Assert.assertEquals("Medina", c.getSurname());
+
 	}
 
 }
