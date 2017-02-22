@@ -7,8 +7,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.transaction.UserTransaction;
 
-import org.fondazioneits.academy.dao.JPADao;
-import org.fondazioneits.academy.entity.Customer;
+import org.fondazioneits.academy.persistence.dao.JPADao;
+import org.fondazioneits.academy.persistence.entity.BaseAcademyEntity;
+import org.fondazioneits.academy.persistence.entity.Customer;
 import org.fondazioneits.academy.test.Academy01TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class CustomerJpaDaoTestCase extends Academy01TestCase {
 
 	@Test
 	public void findCustomerByPrimaryKeySuccessful() {
-		Customer c = this.customerJPADao.find(new Long(1));
+		BaseAcademyEntity c = this.customerJPADao.find(new Long(1));
 		Assert.assertNotNull(c);
 	}
 

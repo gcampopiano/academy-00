@@ -1,8 +1,10 @@
-package org.fondazioneits.academy.service;
+package org.fondazioneits.academy.feature.customer.service;
 
-public class RegisterCustomerServiceResponse implements AcademyServiceResponse {
+import org.fondazioneits.academy.service.AcademyServiceRequest;
 
-	private static final long serialVersionUID = 1382257041515014936L;
+public class RegisterCustomerServiceRequest implements AcademyServiceRequest {
+
+	private static final long serialVersionUID = 6192676607134174324L;
 
 	private org.fondazioneits.academy.model.Customer customer;
 

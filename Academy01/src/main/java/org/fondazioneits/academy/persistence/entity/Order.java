@@ -1,13 +1,10 @@
-package org.fondazioneits.academy.entity;
+package org.fondazioneits.academy.persistence.entity;
 
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -22,35 +19,23 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "\"ORDER\"")
 @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
-public class Order implements AcademyEntity {
-	private static final long serialVersionUID = 1L;
+public class Order extends BaseAcademyEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "\"ID\"", unique = true, nullable = false)
-	private Long id;
+	private static final long serialVersionUID = 1276145755638019321L;
 
 	@Column(name = "\"CODE\"", nullable = false, length = 2147483647)
 	private String code;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "\"SUBMISSION_DATE\"", nullable = false)
 	private Date submissionDate;
 
 	// bi-directional many-to-one association to Customer
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "\"CUSTOMER_ID\"")
-	private Customer customer;
+	private BaseAcademyEntity customer;
 
 	public Order() {
-	}
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getCode() {
@@ -69,11 +54,11 @@ public class Order implements AcademyEntity {
 		this.submissionDate = submissionDate;
 	}
 
-	public Customer getCustomer() {
+	public BaseAcademyEntity getCustomer() {
 		return this.customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(BaseAcademyEntity customer) {
 		this.customer = customer;
 	}
 

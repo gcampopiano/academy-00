@@ -11,8 +11,9 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 
-import org.fondazioneits.academy.entity.Customer;
-import org.fondazioneits.academy.entity.Order;
+import org.fondazioneits.academy.persistence.entity.BaseAcademyEntity;
+import org.fondazioneits.academy.persistence.entity.Customer;
+import org.fondazioneits.academy.persistence.entity.Order;
 import org.fondazioneits.academy.test.Academy01TestCase;
 import org.jboss.arquillian.test.spi.ArquillianProxyException;
 import org.junit.Assert;
@@ -28,7 +29,7 @@ public class EntityManagerTestCase extends Academy01TestCase {
 
 	@Test
 	public void findInEmptyDatabaseReturnsNullEntity() {
-		Customer c = this.em.find(Customer.class, new Long(Long.MIN_VALUE));
+		BaseAcademyEntity c = this.em.find(Customer.class, new Long(Long.MIN_VALUE));
 		Assert.assertNull(c);
 	}
 
@@ -155,13 +156,13 @@ public class EntityManagerTestCase extends Academy01TestCase {
 		this.utx.begin();
 		this.em.joinTransaction();
 
-		Customer toRemove = this.em.find(Customer.class, entityId);
+		BaseAcademyEntity toRemove = this.em.find(Customer.class, entityId);
 		this.em.remove(toRemove);
 
 		this.utx.commit();
 		this.em.clear();
 
-		Customer c = this.em.find(Customer.class, entityId);
+		BaseAcademyEntity c = this.em.find(Customer.class, entityId);
 		Assert.assertNull(c);
 	}
 

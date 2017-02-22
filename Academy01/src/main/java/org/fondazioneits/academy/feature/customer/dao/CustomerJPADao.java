@@ -1,10 +1,11 @@
-package org.fondazioneits.academy.dao;
+package org.fondazioneits.academy.feature.customer.dao;
 
 import java.util.List;
 
 import javax.persistence.Query;
 
-import org.fondazioneits.academy.entity.Customer;
+import org.fondazioneits.academy.persistence.dao.JPADao;
+import org.fondazioneits.academy.persistence.entity.Customer;
 
 public class CustomerJPADao extends JPADao<Customer> implements CustomerDao {
 

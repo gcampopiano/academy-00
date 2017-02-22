@@ -6,8 +6,8 @@
 
 	<persistence-unit name="Academy01">
 		<jta-data-source>java:jboss/datasources/Academy01D</jta-data-source>
-		<class>org.fondazioneits.academy.entity.Customer</class>
-		<class>org.fondazioneits.academy.entity.Order</class>
+		<class>org.fondazioneits.academy.persistence.entity.Customer</class>
+		<class>org.fondazioneits.academy.persistence.entity.Order</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>		
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="none" />

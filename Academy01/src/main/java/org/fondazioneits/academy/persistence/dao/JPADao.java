@@ -1,9 +1,9 @@
-package org.fondazioneits.academy.dao;
+package org.fondazioneits.academy.persistence.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.fondazioneits.academy.entity.AcademyEntity;
+import org.fondazioneits.academy.persistence.entity.AcademyEntity;
 
 public abstract class JPADao<AE extends AcademyEntity> implements AcademyDao<AE> {
 
@@ -34,8 +34,8 @@ public abstract class JPADao<AE extends AcademyEntity> implements AcademyDao<AE>
 	}
 
 	@Override
-	public void update(AE entity) {
-		this.em.merge(entity);
+	public AE update(AE entity) {
+		return this.em.merge(entity);
 	}
 
 	@Override

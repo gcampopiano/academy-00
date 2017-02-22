@@ -1,4 +1,4 @@
-package org.fondazioneits.academy.entity;
+package org.fondazioneits.academy.persistence.entity;
 
 import java.io.Serializable;
 

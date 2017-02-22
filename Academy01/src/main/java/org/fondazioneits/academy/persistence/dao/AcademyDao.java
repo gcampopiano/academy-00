@@ -1,6 +1,6 @@
-package org.fondazioneits.academy.dao;
+package org.fondazioneits.academy.persistence.dao;
 
-import org.fondazioneits.academy.entity.AcademyEntity;
+import org.fondazioneits.academy.persistence.entity.AcademyEntity;
 
 public interface AcademyDao<AE extends AcademyEntity> {
 
@@ -8,7 +8,7 @@ public interface AcademyDao<AE extends AcademyEntity> {
 
 	public AE find(Long id);
 
-	public void update(AE entity);
+	public AE update(AE entity);
 
 	public void delete(AE entity);
 
