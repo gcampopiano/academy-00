@@ -19,7 +19,7 @@ public class CustomerBean implements CustomerService {
 
 	}
 
-	public CreateCustomerServiceResponse createCustomer(CreateCustomerServiceRequest request) {
+	public RegisterCustomerServiceResponse registerCustomer(RegisterCustomerServiceRequest request) {
 
 		Customer customerEntity = new Customer();
 		customerEntity.setName(request.getCustomer().getName());
@@ -27,7 +27,7 @@ public class CustomerBean implements CustomerService {
 
 		this.customerJPADao.save(customerEntity);
 		
-		CreateCustomerServiceResponse response = new CreateCustomerServiceResponse();
+		RegisterCustomerServiceResponse response = new RegisterCustomerServiceResponse();
 		response.setCustomer(request.getCustomer());
 		response.getCustomer().setId(customerEntity.getId());
 

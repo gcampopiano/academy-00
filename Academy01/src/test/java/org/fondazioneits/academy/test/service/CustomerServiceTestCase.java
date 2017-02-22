@@ -3,8 +3,8 @@ package org.fondazioneits.academy.test.service;
 import javax.ejb.EJB;
 
 import org.fondazioneits.academy.model.Customer;
-import org.fondazioneits.academy.service.CreateCustomerServiceRequest;
-import org.fondazioneits.academy.service.CreateCustomerServiceResponse;
+import org.fondazioneits.academy.service.RegisterCustomerServiceRequest;
+import org.fondazioneits.academy.service.RegisterCustomerServiceResponse;
 import org.fondazioneits.academy.service.CustomerService;
 import org.fondazioneits.academy.test.Academy01TestCase;
 import org.junit.Assert;
@@ -25,10 +25,10 @@ public class CustomerServiceTestCase extends Academy01TestCase {
 		customer.setName(name);
 		customer.setSurname(surname);
 
-		CreateCustomerServiceRequest serviceRequest = new CreateCustomerServiceRequest();
+		RegisterCustomerServiceRequest serviceRequest = new RegisterCustomerServiceRequest();
 		serviceRequest.setCustomer(customer);
 
-		CreateCustomerServiceResponse serviceResponse = this.customerService.createCustomer(serviceRequest);
+		RegisterCustomerServiceResponse serviceResponse = this.customerService.registerCustomer(serviceRequest);
 
 		Assert.assertNotNull(serviceResponse);
 		Assert.assertNotNull(serviceResponse.getCustomer());
