@@ -3,7 +3,7 @@ package org.fondazioneits.academy.feature.order.dao;
 import org.fondazioneits.academy.persistence.dao.JPADao;
 import org.fondazioneits.academy.persistence.entity.Order;
 
-public class OrderJpaDao extends JPADao<Order> {
+public class OrderJpaDao extends JPADao<Order> implements OrderDao {
 
 	public OrderJpaDao(Class<Order> type) {
 		super(type);
