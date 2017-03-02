@@ -11,6 +11,8 @@ import org.fondazioneits.academy.feature.order.dao.OrderDao;
 import org.fondazioneits.academy.feature.order.service.InsertOrderServiceRequest;
 import org.fondazioneits.academy.feature.order.service.InsertOrderServiceResponse;
 import org.fondazioneits.academy.feature.order.service.OrderService;
+import org.fondazioneits.academy.feature.order.service.RetrieveOrderListServiceRequest;
+import org.fondazioneits.academy.feature.order.service.RetrieveOrderListServiceResponse;
 import org.fondazioneits.academy.model.Customer;
 import org.fondazioneits.academy.model.Order;
 import org.fondazioneits.academy.service.AcademyServiceException;
@@ -69,6 +71,37 @@ public class OrderServiceTestCase extends Academy01TestCase {
 				.retrieveOrdersByCustomerId(customerId);
 
 		Assert.assertTrue((orderList != null) && !orderList.isEmpty());
+
+	}
+
+	@Test(expected = AcademyServiceException.class)
+	public void retrieveOrderListThrowsExceptionWithoutCustomerId() throws AcademyServiceException {
+
+		RetrieveOrderListServiceRequest serviceRequest = new RetrieveOrderListServiceRequest();
+		serviceRequest.setCustomerId(null);
+
+		this.orderService.retrieveOrderList(serviceRequest);
+	}
+
+	@Test
+	public void retrieveOrderListSuccessful() {
+		Long customerId = new Long(1);
+
+		RetrieveOrderListServiceRequest serviceRequest = new RetrieveOrderListServiceRequest();
+		serviceRequest.setCustomerId(customerId);
+
+		RetrieveOrderListServiceResponse serviceResponse = null;
+		try {
+			serviceResponse = this.orderService.retrieveOrderList(serviceRequest);
+		} catch (AcademyServiceException e) {
+			Assert.fail();
+		}
+
+		Assert.assertNotNull(serviceResponse);
+
+		List<org.fondazioneits.academy.model.Order> orderList = serviceResponse.getOrderList();
+		Assert.assertNotNull(orderList);
+		Assert.assertFalse(orderList.isEmpty());
 
 	}
 

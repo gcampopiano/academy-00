@@ -33,7 +33,7 @@ public class Order extends BaseAcademyEntity {
 	// bi-directional many-to-one association to Customer
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "\"CUSTOMER_ID\"")
-	private BaseAcademyEntity customer;
+	private Customer customer;
 
 	public Order() {
 	}
@@ -54,11 +54,11 @@ public class Order extends BaseAcademyEntity {
 		this.submissionDate = submissionDate;
 	}
 
-	public BaseAcademyEntity getCustomer() {
-		return this.customer;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCustomer(BaseAcademyEntity customer) {
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
