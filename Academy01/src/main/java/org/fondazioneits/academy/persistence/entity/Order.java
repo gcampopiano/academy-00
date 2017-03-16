@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,6 +13,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.fondazioneits.academy.model.OrderStatus;
 
 /**
  * The persistent class for the "ORDER" database table.
@@ -34,6 +38,10 @@ public class Order extends BaseAcademyEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "\"CUSTOMER_ID\"")
 	private Customer customer;
+
+	@Column(name = "\"ORDER_STATUS\"", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 
 	public Order() {
 	}
@@ -60,6 +68,14 @@ public class Order extends BaseAcademyEntity {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 }

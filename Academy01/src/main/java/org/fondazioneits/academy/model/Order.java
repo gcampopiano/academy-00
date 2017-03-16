@@ -14,6 +14,8 @@ public class Order implements AcademyModel {
 
 	private Customer customer;
 
+	private OrderStatus orderStatus;
+
 	public Order() {
 		super();
 	}
@@ -48,6 +50,14 @@ public class Order implements AcademyModel {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 }

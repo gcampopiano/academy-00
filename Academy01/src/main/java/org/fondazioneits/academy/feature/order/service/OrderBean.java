@@ -82,4 +82,47 @@ public class OrderBean implements OrderService {
 		return serviceResponse;
 	}
 
+	@Override
+	public ModifyOrderServiceResponse modifyOrder(ModifyOrderServiceRequest request) throws AcademyServiceException {
+
+		org.fondazioneits.academy.model.Order order = request.getOrder();
+
+		if (order == null) {
+			throw new AcademyServiceException("Order cannot be empty");
+		}
+
+		Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();
+
+		// questa entity NON é MANAGED!!!
+		org.fondazioneits.academy.persistence.entity.Order orderEntity = mapper.map(order,
+				org.fondazioneits.academy.persistence.entity.Order.class);
+
+		this.orderDao.update(orderEntity);
+
+		return new ModifyOrderServiceResponse();
+	}
+
+	@Override
+	public OrderDetailsServiceResponse getOrderDetails(OrderDetailsServiceRequest request)
+			throws AcademyServiceException {
+
+		Long orderId = request.getOrderId();
+		if (orderId == null) {
+			throw new AcademyServiceException("Order id cannot be null");
+		}
+
+		org.fondazioneits.academy.persistence.entity.Order orderEntity = this.orderDao.find(orderId);
+		if (orderEntity == null) {
+			throw new AcademyServiceException("No order found in database for id " + orderId);
+		}
+
+		org.fondazioneits.academy.model.Order order = DozerBeanMapperSingletonWrapper.getInstance().map(orderEntity,
+				org.fondazioneits.academy.model.Order.class);
+
+		OrderDetailsServiceResponse serviceResponse = new OrderDetailsServiceResponse();
+		serviceResponse.setOrder(order);
+
+		return serviceResponse;
+	}
+
 }
