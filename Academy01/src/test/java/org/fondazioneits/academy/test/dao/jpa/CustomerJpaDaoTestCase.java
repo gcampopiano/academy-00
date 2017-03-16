@@ -1,5 +1,7 @@
 package org.fondazioneits.academy.test.dao.jpa;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -7,7 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.transaction.UserTransaction;
 
-import org.fondazioneits.academy.persistence.dao.JPADao;
+import org.fondazioneits.academy.feature.customer.dao.CustomerDao;
+import org.fondazioneits.academy.persistence.dao.DaoMock;
 import org.fondazioneits.academy.persistence.entity.BaseAcademyEntity;
 import org.fondazioneits.academy.persistence.entity.Customer;
 import org.fondazioneits.academy.test.Academy01TestCase;
@@ -17,7 +20,11 @@ import org.junit.Test;
 public class CustomerJpaDaoTestCase extends Academy01TestCase {
 
 	@Inject
-	public JPADao<Customer> customerJPADao;
+	public CustomerDao customerJPADao;
+
+	@Inject
+	@DaoMock
+	public CustomerDao customerDaoMock;
 
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
 	protected EntityManager em;
@@ -55,6 +62,20 @@ public class CustomerJpaDaoTestCase extends Academy01TestCase {
 
 		this.utx.commit();
 		this.em.clear();
+	}
+
+	@Test
+	public void retrieveCustomerListByNameSuccessful() {
+		List<Customer> customerList = this.customerJPADao.retrieveCustomerListByName("Guido");
+		for (Customer currCustomer : customerList) {
+			System.out.println("currCustomer.getName()=" + currCustomer.getName());
+		}
+
+		List<Customer> customerListMock = this.customerDaoMock.retrieveCustomerListByName("Guido");
+		for (Customer currCustomer : customerListMock) {
+			System.out.println("currCustomer.getName()=" + currCustomer.getName());
+		}
+
 	}
 
 }

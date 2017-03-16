@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.fondazioneits.academy.persistence.dao.JPADao;
+import org.fondazioneits.academy.feature.customer.dao.CustomerDao;
 import org.fondazioneits.academy.persistence.entity.Customer;
 import org.fondazioneits.academy.service.AcademyServiceException;
 
@@ -16,7 +16,7 @@ import org.fondazioneits.academy.service.AcademyServiceException;
 public class CustomerBean implements CustomerService {
 
 	@Inject
-	public JPADao<Customer> customerJPADao;
+	public CustomerDao customerJPADao;
 
 	public CustomerBean() {
 
