@@ -1,11 +1,13 @@
 package org.fondazioneits.academy.feature.customer.service;
 
 import java.util.GregorianCalendar;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.fondazioneits.academy.feature.customer.dao.CustomerDao;
+import org.fondazioneits.academy.interceptor.logging.Logging;
 import org.fondazioneits.academy.persistence.entity.Customer;
 import org.fondazioneits.academy.service.AcademyServiceException;
 
@@ -18,10 +20,14 @@ public class CustomerBean implements CustomerService {
 	@Inject
 	public CustomerDao customerJPADao;
 
+	@Inject
+	private Logger log;
+
 	public CustomerBean() {
 
 	}
 
+	@Logging
 	public RegisterCustomerServiceResponse registerCustomer(RegisterCustomerServiceRequest request)
 			throws AcademyServiceException {
 
@@ -48,6 +54,7 @@ public class CustomerBean implements CustomerService {
 	}
 
 	@Override
+	@Logging
 	public RegisterCustomerServiceResponse modifyRegisteredCustomer(RegisterCustomerServiceRequest request)
 			throws AcademyServiceException {
 
