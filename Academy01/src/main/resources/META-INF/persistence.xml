@@ -5,7 +5,7 @@
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
 	<persistence-unit name="Academy01">
-		<jta-data-source>java:jboss/datasources/Academy01D</jta-data-source>
+		<jta-data-source>java:jboss/datasources/Academy01DS</jta-data-source>
 		<class>org.fondazioneits.academy.persistence.entity.Customer</class>
 		<class>org.fondazioneits.academy.persistence.entity.Order</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>		

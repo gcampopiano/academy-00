@@ -3,5 +3,13 @@
 	xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
+	<mapping map-id="orders-no-customer">
+		<class-a>org.fondazioneits.academy.persistence.entity.Order</class-a>
+		<class-b>org.fondazioneits.academy.model.Order</class-b>
+		<field-exclude>
+			<a>customer</a>
+			<b>customer</b>
+		</field-exclude>
+	</mapping>
 
 </mappings> 

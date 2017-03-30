@@ -8,5 +8,7 @@ import org.fondazioneits.academy.persistence.entity.Order;
 public interface OrderDao extends AcademyDao<Order> {
 
 	public List<Order> retrieveOrdersByCustomerId(Long customerId);
+	
+	public List<Order> retrieveAllOrders();
 
 }

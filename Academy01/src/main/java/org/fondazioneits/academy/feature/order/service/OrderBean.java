@@ -60,23 +60,30 @@ public class OrderBean implements OrderService {
 	public RetrieveOrderListServiceResponse retrieveOrderList(RetrieveOrderListServiceRequest request)
 			throws AcademyServiceException {
 
+		RetrieveOrderListServiceResponse serviceResponse = new RetrieveOrderListServiceResponse();
+
 		Long customerId = null;
+		List<org.fondazioneits.academy.persistence.entity.Order> orderEntityList = null;
 		if ((customerId = request.getCustomerId()) == null) {
-			throw new AcademyServiceException("customer id cannot be empty");
+			orderEntityList = this.orderDao.retrieveAllOrders();
+		} else {
+			org.fondazioneits.academy.persistence.entity.Customer customerEntity = this.customerDao.find(customerId);
+			if (customerEntity == null) {
+				throw new AcademyServiceException("Customer not found in database");
+			}
+			orderEntityList = customerEntity.getOrders();
 		}
 
-		org.fondazioneits.academy.persistence.entity.Customer customerEntity = this.customerDao.find(customerId);
-		if (customerEntity == null) {
-			throw new AcademyServiceException("Customer not found in database");
-		}
-
-		List<org.fondazioneits.academy.persistence.entity.Order> orderEntityList = customerEntity.getOrders();
 		Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();
 
 		List<org.fondazioneits.academy.model.Order> orderModelList = new ArrayList<>();
-		mapper.map(orderEntityList, orderModelList);
+		for (org.fondazioneits.academy.persistence.entity.Order currEntity : orderEntityList) {
+			org.fondazioneits.academy.model.Order orderModel = mapper.map(currEntity,
+					org.fondazioneits.academy.model.Order.class, "orders-no-customer");
+			orderModelList.add(orderModel);
+		}
+		// mapper.map(orderEntityList, orderModelList, "orders-no-customer");
 
-		RetrieveOrderListServiceResponse serviceResponse = new RetrieveOrderListServiceResponse();
 		serviceResponse.setOrderList(orderModelList);
 
 		return serviceResponse;

@@ -28,4 +28,12 @@ public class OrderJpaDao extends JPADao<Order> implements OrderDao {
 		return q.getResultList();
 	}
 
+	@Override
+	public List<Order> retrieveAllOrders() {
+
+		String qlString = "from Order";
+		Query q = this.em.createQuery(qlString);
+		return q.getResultList();
+	}
+
 }
