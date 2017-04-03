@@ -9,17 +9,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import org.fondazioneits.academy.persistence.entity.BaseAcademyEntity;
 import org.fondazioneits.academy.persistence.entity.Customer;
 import org.fondazioneits.academy.persistence.entity.Order;
-import org.fondazioneits.academy.test.Academy01TestCase;
+import org.fondazioneits.academy.test.AcademyServiceTestCase;
 import org.jboss.arquillian.test.spi.ArquillianProxyException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class EntityManagerTestCase extends Academy01TestCase {
+public class EntityManagerTestCase extends AcademyServiceTestCase {
 
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
 	protected EntityManager em;
@@ -139,19 +141,58 @@ public class EntityManagerTestCase extends Academy01TestCase {
 	}
 
 	@Test
-	public void retrieveCustomerListByUsernameSuccessful() {
+	public void retrieveCustomerListByUsernameSuccessful() throws Exception {
+
+		String randomName = "Guido" + Math.random();
+		String randomSurname = "Campopiano" + Math.random();
+
+		Customer c1 = new Customer();
+		c1.setName(randomName);
+		c1.setSurname(randomSurname);
+
+		Customer c2 = new Customer();
+		c2.setName(randomName);
+		c2.setSurname(randomSurname);
+
+		Customer c3 = new Customer();
+		c3.setName(randomName);
+		c3.setSurname(randomSurname);
+
+		this.utx.begin();
+		this.em.joinTransaction();
+
+		this.em.persist(c1);
+		this.em.persist(c2);
+		this.em.persist(c3);
+
+		this.utx.commit();
+		this.em.clear();
+
 		String qlString = "from Customer c where c.name = :nameParam";
 		Query q = this.em.createQuery(qlString);
-		q.setParameter("nameParam", "Guido");
+		q.setParameter("nameParam", randomName);
 
 		@SuppressWarnings("unchecked")
 		List<Customer> customerList = q.getResultList();
-		Assert.assertTrue((customerList != null) && (!customerList.isEmpty()));
+		Assert.assertTrue((customerList != null) && (customerList.size() == 3));
 	}
 
 	@Test
 	public void deleteCustomerByIdSuccessful() throws Exception {
-		Long entityId = new Long(2);
+
+		Customer toDelete = new Customer();
+		toDelete.setName("" + Math.random());
+		toDelete.setSurname("" + Math.random());
+
+		this.utx.begin();
+		this.em.joinTransaction();
+
+		this.em.persist(toDelete);
+
+		Long entityId = toDelete.getId();
+
+		this.utx.commit();
+		this.em.clear();
 
 		this.utx.begin();
 		this.em.joinTransaction();
@@ -169,10 +210,24 @@ public class EntityManagerTestCase extends Academy01TestCase {
 	@Test
 	public void updateCustomerSuccessful() throws Exception {
 
+		Customer toUpdate0 = new Customer();
+		toUpdate0.setName("" + Math.random());
+		toUpdate0.setSurname("" + Math.random());
+
 		this.utx.begin();
 		this.em.joinTransaction();
 
-		Customer toUpdate = this.em.find(Customer.class, new Long(4));
+		this.em.persist(toUpdate0);
+
+		Long entityId = toUpdate0.getId();
+
+		this.utx.commit();
+		this.em.clear();
+
+		this.utx.begin();
+		this.em.joinTransaction();
+
+		Customer toUpdate = this.em.find(Customer.class, entityId);
 
 		toUpdate.setName("Oliver");
 		toUpdate.setSurname("Medina");
