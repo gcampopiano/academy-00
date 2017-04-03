@@ -4,11 +4,11 @@ import javax.ejb.EJB;
 import javax.inject.Inject;
 
 import org.fondazioneits.academy.feature.customer.dao.CustomerDao;
-import org.fondazioneits.academy.test.Academy01TestCase;
+import org.fondazioneits.academy.test.AcademyServiceTestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ApplicationExceptionTestCase extends Academy01TestCase {
+public class ApplicationExceptionTestCase extends AcademyServiceTestCase {
 
 	@EJB
 	private RollbackingEjb rollbackingEjb;

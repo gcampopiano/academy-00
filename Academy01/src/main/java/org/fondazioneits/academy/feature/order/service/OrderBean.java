@@ -12,6 +12,7 @@ import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
 import org.fondazioneits.academy.feature.customer.dao.CustomerDao;
 import org.fondazioneits.academy.feature.order.dao.OrderDao;
+import org.fondazioneits.academy.model.OrderStatus;
 import org.fondazioneits.academy.persistence.entity.Order;
 import org.fondazioneits.academy.service.AcademyServiceException;
 
@@ -27,6 +28,23 @@ public class OrderBean implements OrderService {
 	@Override
 	public InsertOrderServiceResponse insertNewOrder(InsertOrderServiceRequest request) throws AcademyServiceException {
 		org.fondazioneits.academy.model.Order orderModel = request.getOrder();
+
+		if (orderModel == null) {
+			throw new AcademyServiceException("orderModel cannot be null");
+		}
+
+		if (orderModel.getCustomer() == null) {
+			throw new AcademyServiceException("Customer in orderModel cannot be null");
+		}
+
+		org.fondazioneits.academy.model.Customer customerModel = orderModel.getCustomer();
+		if (customerModel.getId() == null) {
+			throw new AcademyServiceException("customerId cannot be null");
+		}
+
+		if (orderModel.getCode() == null || orderModel.getCode().trim().isEmpty()) {
+			throw new AcademyServiceException("orderModel code cannot be null");
+		}
 
 		org.fondazioneits.academy.persistence.entity.Order orderEntity = new Order();
 
@@ -44,11 +62,13 @@ public class OrderBean implements OrderService {
 		orderEntity.setCustomer(customerEntity);
 		orderEntity.setLastModifiedDate(creationDate);
 		orderEntity.setSubmissionDate(creationDate);
+		orderEntity.setOrderStatus(OrderStatus.NEW);
 
 		this.orderDao.save(orderEntity);
 
 		orderModel.setId(orderEntity.getId());
 		orderModel.setSubmissionDate(creationDate);
+		orderModel.setOrderStatus(orderEntity.getOrderStatus());
 
 		InsertOrderServiceResponse serviceResponse = new InsertOrderServiceResponse();
 		serviceResponse.setOrder(orderModel);

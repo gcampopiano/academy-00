@@ -1,5 +1,6 @@
 package org.fondazioneits.academy.feature.customer.service;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
@@ -77,11 +78,15 @@ public class CustomerBean implements CustomerService {
 
 		// il metodo "update" invoca la merge sull'Entity Manager,
 		// restituendo una reference ad una entity "attached"
-		customerEntity = this.customerJPADao.update(customerEntity);
+		org.fondazioneits.academy.persistence.entity.Customer managedCustomerEntity = this.customerJPADao
+				.update(customerEntity);
 
-		customerEntity.setLastModifiedDate(GregorianCalendar.getInstance().getTime());
+		managedCustomerEntity.setLastModifiedDate(new Date());
 
-		return new RegisterCustomerServiceResponse();
+		RegisterCustomerServiceResponse serviceResponse = new RegisterCustomerServiceResponse();
+		serviceResponse.setCustomer(customerModel);
+
+		return serviceResponse;
 	}
 
 }
