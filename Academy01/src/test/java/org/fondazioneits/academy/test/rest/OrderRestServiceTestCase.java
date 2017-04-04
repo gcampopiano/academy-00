@@ -58,7 +58,7 @@ public class OrderRestServiceTestCase extends AcademyRestServiceTestCase {
 	public void insertNewOrderWithoutCodeReturns400() throws Exception {
 		org.fondazioneits.academy.model.Customer customerModel = new Customer();
 		customerModel.setId(new Long(1));
-		
+
 		// esplicitamente non imposto il codice dell'ordine
 		org.fondazioneits.academy.model.Order orderModel = new Order();
 		orderModel.setCustomer(customerModel);
@@ -71,6 +71,28 @@ public class OrderRestServiceTestCase extends AcademyRestServiceTestCase {
 		int responseStatus = clientResponse.getStatus();
 		Assert.assertEquals(400, responseStatus);
 		Assert.assertEquals(ErrorCode.MISSING_ORDER_CODE, clientResponse.getEntity(ErrorCode.class));
+	}
+
+	@SuppressWarnings("deprecation")
+	@RunAsClient
+	@Test
+	public void insertNewOrderWithoutCustomerIdReturns400() throws Exception {
+
+		// esplicitamente non imposto l'id del customer
+		org.fondazioneits.academy.model.Customer customerModel = new Customer();
+
+		org.fondazioneits.academy.model.Order orderModel = new Order();
+		orderModel.setCode("My test code");
+		orderModel.setCustomer(customerModel);
+
+		ClientRequest request = new ClientRequest(this.deploymentUrl.toString() + RESOURCE_PREFIX + "/orders")
+				.body(MediaType.APPLICATION_JSON, orderModel);
+
+		ClientResponse<ErrorCode> clientResponse = request.post();
+
+		int responseStatus = clientResponse.getStatus();
+		Assert.assertEquals(400, responseStatus);
+		Assert.assertEquals(ErrorCode.MISSING_ORDER_CUSTOMER_ID, clientResponse.getEntity(ErrorCode.class));
 	}
 
 }
