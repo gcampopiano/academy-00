@@ -10,7 +10,7 @@ public class AcademyRestServiceExceptionMapper implements ExceptionMapper<Academ
 
 	@Override
 	public Response toResponse(AcademyRestServiceException restServiceException) {
-		return Response.status(restServiceException.getStatus()).entity(restServiceException.getMessage())
+		return Response.status(restServiceException.getHttpStatus()).entity(restServiceException.getErrorCode())
 				.type(MediaType.APPLICATION_JSON).build();
 	}
 

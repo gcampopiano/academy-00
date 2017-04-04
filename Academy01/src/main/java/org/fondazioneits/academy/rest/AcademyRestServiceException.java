@@ -2,34 +2,42 @@ package org.fondazioneits.academy.rest;
 
 import javax.ws.rs.core.Response.Status;
 
+import org.fondazioneits.academy.model.ErrorCode;
+
 public class AcademyRestServiceException extends Exception {
 
 	private static final long serialVersionUID = 1665659158865804550L;
 
-	private Status status;
+	private ErrorCode errorCode;
 
-	private String message;
+	private Status httpStatus;
 
-	public AcademyRestServiceException(Status status, String message) {
+	public AcademyRestServiceException(ErrorCode errorCode) {
 		super();
-		this.status = status;
-		this.message = message;
+		this.errorCode = errorCode;
+		this.httpStatus = Status.BAD_REQUEST;
 	}
 
-	public Status getStatus() {
-		return status;
+	public AcademyRestServiceException(ErrorCode errorCode, Status httpStatus) {
+		super();
+		this.errorCode = errorCode;
+		this.httpStatus = httpStatus;
 	}
 
-	public void setStatus(Status status) {
-		this.status = status;
+	public ErrorCode getErrorCode() {
+		return errorCode;
 	}
 
-	public String getMessage() {
-		return message;
+	public void setErrorCode(ErrorCode errorCode) {
+		this.errorCode = errorCode;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public Status getHttpStatus() {
+		return httpStatus;
+	}
+
+	public void setHttpStatus(Status httpStatus) {
+		this.httpStatus = httpStatus;
 	}
 
 }

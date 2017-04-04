@@ -5,6 +5,7 @@ import javax.ws.rs.core.MediaType;
 import org.fondazioneits.academy.feature.order.rest.InsertOrderRestServiceResponse;
 import org.fondazioneits.academy.feature.order.service.InsertOrderServiceResponse;
 import org.fondazioneits.academy.model.Customer;
+import org.fondazioneits.academy.model.ErrorCode;
 import org.fondazioneits.academy.model.Order;
 import org.fondazioneits.academy.model.OrderStatus;
 import org.fondazioneits.academy.test.AcademyRestServiceTestCase;
@@ -49,6 +50,27 @@ public class OrderRestServiceTestCase extends AcademyRestServiceTestCase {
 		Assert.assertTrue(responseOrderModel.getOrderStatus() == OrderStatus.NEW);
 		Assert.assertEquals("A test code", responseOrderModel.getCode());
 		Assert.assertEquals(new Long(1), responseOrderModel.getCustomer().getId());
+	}
+
+	@SuppressWarnings("deprecation")
+	@RunAsClient
+	@Test
+	public void insertNewOrderWithoutCodeReturns400() throws Exception {
+		org.fondazioneits.academy.model.Customer customerModel = new Customer();
+		customerModel.setId(new Long(1));
+		
+		// esplicitamente non imposto il codice dell'ordine
+		org.fondazioneits.academy.model.Order orderModel = new Order();
+		orderModel.setCustomer(customerModel);
+
+		ClientRequest request = new ClientRequest(this.deploymentUrl.toString() + RESOURCE_PREFIX + "/orders")
+				.body(MediaType.APPLICATION_JSON, orderModel);
+
+		ClientResponse<ErrorCode> clientResponse = request.post();
+
+		int responseStatus = clientResponse.getStatus();
+		Assert.assertEquals(400, responseStatus);
+		Assert.assertEquals(ErrorCode.MISSING_ORDER_CODE, clientResponse.getEntity(ErrorCode.class));
 	}
 
 }

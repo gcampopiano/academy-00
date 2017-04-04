@@ -60,7 +60,7 @@ public class OrderRestService {
 			serviceResponse = this.orderService.insertNewOrder(serviceRequest);
 		} catch (AcademyServiceException e) {
 			this.logger.severe("Following error occurred in insertNewOrder(): " + e.getMessage());
-			throw new AcademyRestServiceException(Status.INTERNAL_SERVER_ERROR, e.getMessage());
+			throw new AcademyRestServiceException(e.getErrorCode());
 		}
 
 		InsertOrderRestServiceResponse restResponse = new InsertOrderRestServiceResponse(serviceResponse);

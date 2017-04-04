@@ -12,6 +12,7 @@ import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
 import org.fondazioneits.academy.feature.customer.dao.CustomerDao;
 import org.fondazioneits.academy.feature.order.dao.OrderDao;
+import org.fondazioneits.academy.model.ErrorCode;
 import org.fondazioneits.academy.model.OrderStatus;
 import org.fondazioneits.academy.persistence.entity.Order;
 import org.fondazioneits.academy.service.AcademyServiceException;
@@ -30,20 +31,20 @@ public class OrderBean implements OrderService {
 		org.fondazioneits.academy.model.Order orderModel = request.getOrder();
 
 		if (orderModel == null) {
-			throw new AcademyServiceException("orderModel cannot be null");
+			throw new AcademyServiceException(ErrorCode.MISSING_ORDER_PAYLOAD);
 		}
 
 		if (orderModel.getCustomer() == null) {
-			throw new AcademyServiceException("Customer in orderModel cannot be null");
+			throw new AcademyServiceException(ErrorCode.MISSING_ORDER_CUSTOMER_ID);
 		}
 
 		org.fondazioneits.academy.model.Customer customerModel = orderModel.getCustomer();
 		if (customerModel.getId() == null) {
-			throw new AcademyServiceException("customerId cannot be null");
+			throw new AcademyServiceException(ErrorCode.MISSING_ORDER_CUSTOMER_ID);
 		}
 
 		if (orderModel.getCode() == null || orderModel.getCode().trim().isEmpty()) {
-			throw new AcademyServiceException("orderModel code cannot be null");
+			throw new AcademyServiceException(ErrorCode.MISSING_ORDER_CODE);
 		}
 
 		org.fondazioneits.academy.persistence.entity.Order orderEntity = new Order();
@@ -53,7 +54,7 @@ public class OrderBean implements OrderService {
 		org.fondazioneits.academy.persistence.entity.Customer customerEntity = this.customerDao.find(customerId);
 
 		if (customerEntity == null) {
-			throw new AcademyServiceException("Customer with id " + customerId + " is null");
+			throw new AcademyServiceException(ErrorCode.CUSTOMER_NOT_FOUND);
 		}
 
 		Date creationDate = GregorianCalendar.getInstance().getTime();
@@ -89,7 +90,7 @@ public class OrderBean implements OrderService {
 		} else {
 			org.fondazioneits.academy.persistence.entity.Customer customerEntity = this.customerDao.find(customerId);
 			if (customerEntity == null) {
-				throw new AcademyServiceException("Customer not found in database");
+				throw new AcademyServiceException(ErrorCode.CUSTOMER_NOT_FOUND);
 			}
 			orderEntityList = customerEntity.getOrders();
 		}
@@ -115,7 +116,7 @@ public class OrderBean implements OrderService {
 		org.fondazioneits.academy.model.Order order = request.getOrder();
 
 		if (order == null) {
-			throw new AcademyServiceException("Order cannot be empty");
+			throw new AcademyServiceException(ErrorCode.MISSING_ORDER_PAYLOAD);
 		}
 
 		Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();
@@ -135,12 +136,12 @@ public class OrderBean implements OrderService {
 
 		Long orderId = request.getOrderId();
 		if (orderId == null) {
-			throw new AcademyServiceException("Order id cannot be null");
+			throw new AcademyServiceException(ErrorCode.MISSING_ORDER_PAYLOAD);
 		}
 
 		org.fondazioneits.academy.persistence.entity.Order orderEntity = this.orderDao.find(orderId);
 		if (orderEntity == null) {
-			throw new AcademyServiceException("No order found in database for id " + orderId);
+			throw new AcademyServiceException(ErrorCode.ORDER_NOT_FOUND);
 		}
 
 		org.fondazioneits.academy.model.Order order = DozerBeanMapperSingletonWrapper.getInstance().map(orderEntity,

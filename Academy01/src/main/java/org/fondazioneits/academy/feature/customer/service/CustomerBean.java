@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.fondazioneits.academy.feature.customer.dao.CustomerDao;
 import org.fondazioneits.academy.interceptor.logging.Logging;
+import org.fondazioneits.academy.model.ErrorCode;
 import org.fondazioneits.academy.persistence.entity.Customer;
 import org.fondazioneits.academy.service.AcademyServiceException;
 
@@ -33,11 +34,11 @@ public class CustomerBean implements CustomerService {
 			throws AcademyServiceException {
 
 		if ((request.getCustomer().getName() == null) || request.getCustomer().getName().isEmpty()) {
-			throw new AcademyServiceException("Name cannot be empty");
+			throw new AcademyServiceException(ErrorCode.MISSING_CUSTOMER_NAME);
 		}
 
 		if ((request.getCustomer().getSurname() == null) || request.getCustomer().getSurname().isEmpty()) {
-			throw new AcademyServiceException("Surname cannot be empty");
+			throw new AcademyServiceException(ErrorCode.MISSING_CUSTOMER_SURNAME);
 		}
 
 		Customer customerEntity = new Customer();
@@ -62,11 +63,11 @@ public class CustomerBean implements CustomerService {
 		org.fondazioneits.academy.model.Customer customerModel = request.getCustomer();
 
 		if ((customerModel.getName() == null) || customerModel.getName().isEmpty()) {
-			throw new AcademyServiceException("Name cannot be empty");
+			throw new AcademyServiceException(ErrorCode.MISSING_CUSTOMER_NAME);
 		}
 
 		if ((customerModel.getSurname() == null) || customerModel.getSurname().isEmpty()) {
-			throw new AcademyServiceException("Surname cannot be empty");
+			throw new AcademyServiceException(ErrorCode.MISSING_CUSTOMER_SURNAME);
 		}
 
 		// In questo istante la entity è "detached"
