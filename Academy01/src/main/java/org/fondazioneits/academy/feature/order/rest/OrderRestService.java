@@ -8,15 +8,20 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
+import org.dozer.classmap.generator.GeneratorUtils;
 import org.fondazioneits.academy.feature.order.service.InsertOrderServiceRequest;
 import org.fondazioneits.academy.feature.order.service.InsertOrderServiceResponse;
+import org.fondazioneits.academy.feature.order.service.OrderDetailsServiceRequest;
+import org.fondazioneits.academy.feature.order.service.OrderDetailsServiceResponse;
 import org.fondazioneits.academy.feature.order.service.OrderService;
 import org.fondazioneits.academy.feature.order.service.RetrieveOrderListServiceRequest;
 import org.fondazioneits.academy.feature.order.service.RetrieveOrderListServiceResponse;
+import org.fondazioneits.academy.model.ErrorCode;
 import org.fondazioneits.academy.rest.AcademyRestServiceException;
 import org.fondazioneits.academy.service.AcademyServiceException;
 
@@ -65,6 +70,32 @@ public class OrderRestService {
 
 		InsertOrderRestServiceResponse restResponse = new InsertOrderRestServiceResponse(serviceResponse);
 
+		return restResponse;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{orderId}")
+	public OrderDetailsRestServiceResponse retrieveOrderDetails(@PathParam("orderId") Long orderId)
+			throws AcademyRestServiceException {
+
+		OrderDetailsServiceRequest serviceRequest = new OrderDetailsServiceRequest();
+		serviceRequest.setOrderId(orderId);
+
+		OrderDetailsServiceResponse serviceResponse = null;
+
+		try {
+			serviceResponse = this.orderService.getOrderDetails(serviceRequest);
+		} catch (AcademyServiceException e) {
+			this.logger.severe("Following error occurred in retrieveOrderDetails(): " + e.getMessage());
+			ErrorCode errorCode = e.getErrorCode();
+			if (errorCode == ErrorCode.ORDER_NOT_FOUND) {
+				throw new AcademyRestServiceException(errorCode, Status.NOT_FOUND);
+			}
+			throw new AcademyRestServiceException(errorCode);
+		}
+
+		OrderDetailsRestServiceResponse restResponse = new OrderDetailsRestServiceResponse(serviceResponse);
 		return restResponse;
 	}
 

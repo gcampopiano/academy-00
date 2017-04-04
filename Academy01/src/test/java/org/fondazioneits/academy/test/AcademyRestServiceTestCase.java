@@ -27,4 +27,6 @@ public abstract class AcademyRestServiceTestCase extends BaseAcademyTestCase {
 
 	}
 
+	public abstract String uriTemplate();
+
 }
