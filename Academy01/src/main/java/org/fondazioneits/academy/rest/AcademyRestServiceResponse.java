@@ -10,6 +10,10 @@ public abstract class AcademyRestServiceResponse<BSR extends AcademyServiceRespo
 
 	private BSR businessServiceResponse;
 
+	public AcademyRestServiceResponse() {
+		super();
+	}
+
 	public AcademyRestServiceResponse(BSR businessServiceResponse) {
 		super();
 		this.businessServiceResponse = businessServiceResponse;

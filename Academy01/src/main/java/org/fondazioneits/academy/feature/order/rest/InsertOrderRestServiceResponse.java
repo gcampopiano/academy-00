@@ -6,10 +6,13 @@ import org.fondazioneits.academy.rest.AcademyRestServiceResponse;
 public class InsertOrderRestServiceResponse extends AcademyRestServiceResponse<InsertOrderServiceResponse> {
 
 	private static final long serialVersionUID = 8860699704261190928L;
+	
+	public InsertOrderRestServiceResponse() {
+		
+	}
 
 	public InsertOrderRestServiceResponse(InsertOrderServiceResponse businessServiceResponse) {
 		super(businessServiceResponse);
-
 	}
 
 }
