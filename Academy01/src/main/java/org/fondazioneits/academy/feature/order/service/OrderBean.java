@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,15 +18,22 @@ import org.fondazioneits.academy.model.ErrorCode;
 import org.fondazioneits.academy.model.OrderStatus;
 import org.fondazioneits.academy.persistence.entity.Order;
 import org.fondazioneits.academy.service.AcademyServiceException;
+import org.fondazioneits.academy.stub.soap.weather.GlobalWeatherSoap;
 
 @Stateless
 public class OrderBean implements OrderService {
+
+	@Inject
+	private Logger logger;
 
 	@Inject
 	private CustomerDao customerDao;
 
 	@Inject
 	private OrderDao orderDao;
+
+	@Inject
+	private GlobalWeatherSoap globalWeather;
 
 	@Override
 	public InsertOrderServiceResponse insertNewOrder(InsertOrderServiceRequest request) throws AcademyServiceException {
@@ -74,7 +83,15 @@ public class OrderBean implements OrderService {
 		InsertOrderServiceResponse serviceResponse = new InsertOrderServiceResponse();
 		serviceResponse.setOrder(orderModel);
 
+		// per sport stampo tutte le principali città di Italia
+		this.printItalyCities();
+
 		return serviceResponse;
+	}
+
+	private void printItalyCities() {
+		String xml = this.globalWeather.getCitiesByCountry("Italy");
+		this.logger.log(Level.INFO, xml);
 	}
 
 	@Override
